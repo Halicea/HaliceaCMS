@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/4/trunk/HaliceaCMS/src/Controllers
+END
+MyRequestHandler.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/MyRequestHandler.py
+END
+profileHandlers.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/profileHandlers.py
+END
+cmsHandlers.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/4/trunk/HaliceaCMS/src/Controllers/cmsHandlers.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/__init__.py
+END
+baseHandlers.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/baseHandlers.py
+END
+postHandlers.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/postHandlers.py
+END
+adminHandlers.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Controllers/adminHandlers.py
+END

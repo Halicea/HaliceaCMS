@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities
+END
+settings_default.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/settings_default.py
+END
+cache.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/cache.py
+END
+rotmodel.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/rotmodel.py
+END
+paginator.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/paginator.py
+END
+flash.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/flash.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/__init__.py
+END
+cron.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/cron.py
+END
+sessions.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/sessions.py
+END
+event.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/event.py
+END

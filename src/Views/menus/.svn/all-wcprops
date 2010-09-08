@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/menus
+END
+top_menu.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/menus/top_menu.inc.html
+END
+default.yaml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/menus/default.yaml
+END
+accounting_sidebar.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/menus/accounting_sidebar.inc.html
+END
+blog_sidebar.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/menus/blog_sidebar.inc.html
+END

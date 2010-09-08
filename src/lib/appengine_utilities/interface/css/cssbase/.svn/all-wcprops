@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/interface/css/cssbase
+END
+base.css
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/interface/css/cssbase/base.css
+END
+base-context.css
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/interface/css/cssbase/base-context.css
+END
+base-min.css
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/interface/css/cssbase/base-min.css
+END
+base-context-min.css
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/lib/appengine_utilities/interface/css/cssbase/base-context-min.css
+END

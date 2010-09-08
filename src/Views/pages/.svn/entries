@@ -1,0 +1,49 @@
+10
+
+dir
+4
+https://halicea-cms.googlecode.com/svn/trunk/HaliceaCMS/src/Views/pages
+https://halicea-cms.googlecode.com/svn
+
+
+
+2010-03-14T22:39:30.514669Z
+4
+kosta.halicha@gmail.com
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+da32ed60-127f-11df-bbc9-e504a80a8618
+
+admin
+dir
+
+base
+dir
+
+blog
+dir
+
+cms
+dir
+
+feeds
+dir
+
+profiles
+dir
+
+static
+dir
+

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/4/trunk/HaliceaCMS/src/Views/bases
+END
+cms_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/4/trunk/HaliceaCMS/src/Views/bases/cms_base.html
+END
+expanded_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/expanded_base.html
+END
+jqueryLayout.base.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/jqueryLayout.base.html
+END
+jqueryKayout2.base.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/jqueryKayout2.base.html
+END
+text_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/text_base.html
+END
+darkness_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/darkness_base.html
+END
+admin_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/admin_base.html
+END
+base.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/base.html
+END
+blog_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/blog_base.html
+END
+accounting_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/HaliceaCMS/src/Views/bases/accounting_base.html
+END
