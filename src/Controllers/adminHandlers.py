@@ -7,6 +7,7 @@ from google.appengine.ext import db
 import Models.BlogModels as bm
 from Models.BaseModels import Person, Admin
 
+
 from MyRequestHandler import MyRequestHandler
 from lib import messages
 handlerType="admin"

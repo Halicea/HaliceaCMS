@@ -39,15 +39,14 @@ class Post(db.Model):
         return result     
 
 class ShortPost(db.Model):
-    '''Short description of a post, new page is needed for this one'''
-
+    '''Short description of a post, a new page is needed for this one'''
     Title = db.StringProperty(required=True)
     Entry = db.TextProperty(required=True)
     Creator = db.ReferenceProperty(Person , required=True, collection_name='creator_short_posts')
     DateCreated = db.DateTimeProperty(required=True)
     DateModified = db.DateTimeProperty(required=True)
     ReferencePost = db.ReferenceProperty(Post, collection_name='reference_post_short_posts')
-	
+    
     @classmethod
     def CreateNew(cls, title, entry, creator, referencePost, _autoInsert=False):
         result = cls(Title=title, Entry=entry, Creator=creator, ReferencePost=referencePost , DateCreated=dt.datetime.now(), DateModified=dt.datetime.now())
@@ -62,7 +61,7 @@ class Comment(db.Model):
     Creator = db.ReferenceProperty(Person, collection_name='creator_comments')
     DateCreated = db.DateTimeProperty(required=True)
     IsShow = db.BooleanProperty()
-    @classmethod  
+    @classmethod
     def CreateNew(cls, referencePost, entry, creator, isShow, _isAutoInsert=False):
         result = cls(ReferencePost=referencePost, Entry=entry, creator=creator, IsShow=isShow, DateCreated=dt.datetime.now())
         if _isAutoInsert:

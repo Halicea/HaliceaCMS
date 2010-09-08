@@ -86,12 +86,16 @@ class ProfileImage(db.Model):
         
     @classmethod
     def CreateNew(cls, owner, image, album=None, isDefault=False, _isAutoInsert=False):
-        img = images.Image(image).resize(width=80, heigth=100).im_feeling_lucky()
-        thumbnail = img.execute_transforms(output_encoding=images.JPEG)
-        result = cls(Owner=owner, Image=image, Thumbnail=thumbnail, Album = album, IsDefault=isDefault, DateAdded=dt.now())
-        if _isAutoInsert:
-            result.put()
-        return result  
+        img = images.Image(image)
+        if img!=None:
+            img = img.resize(width=80, height=100).im_feeling_lucky()
+            thumbnail = img.execute_transforms(output_encoding=images.JPEG)
+            result = cls(Owner=owner, Image=image, Thumbnail=thumbnail, Album = album, IsDefault=isDefault, DateAdded=dt.now())
+            if _isAutoInsert:
+                result.put()
+            return result
+        else:
+            return None  
     @classmethod
     def GetAllForProfile(cls, profile, limit=100, offset=0):
         return profile.owner_person_images.fetch(limit=limit, offset=offset)   

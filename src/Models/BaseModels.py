@@ -6,7 +6,6 @@ Created on Jul 21, 2009
 ###########
 from google.appengine.ext import db
 import datetime as dt
-
 ###########
 
 class Person(db.Model):
@@ -31,7 +30,6 @@ class Person(db.Model):
 
     def __validate__(self):
         __errors__ = []
-
         if not self.Name or len(self.Name) < 3:
             __errors__.append('Name must not be less than 3 characters')
         if not self.Surname or len(self.Surname) < 3:
@@ -41,7 +39,7 @@ class Person(db.Model):
         if len(self.Password) < 6  or str(self.Password).find(self.Name) >= 0:
             __errors__.append('Not a good Password(Must be at least 6 characters long, and not containing your name')
 
-        return ' and\r\n'.join(__errors__) == '' and (True, None) or (False, ' and\r\n'.join(__errors__))
+        return not __errors__ and (True, None) or (False, ' and\r\n'.join(__errors__))
     
     @classmethod
     def CreateNew(csl, name, surname, email, password, public, notify, _autoSave=False):
@@ -58,7 +56,7 @@ class Person(db.Model):
     @classmethod
     def GetUser(cls, uname, password):
         return cls.gql('WHERE Email= :email AND Password= :passwd', email=uname, passwd=password).get()
-    
+		
 class Admin(Person):
     '''Admin can view all users'''
     #user = db.UserProperty()
