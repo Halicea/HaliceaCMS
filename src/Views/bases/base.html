@@ -2,9 +2,8 @@
 {% block styles %}
 {{block.super}}
 <link href="/styles/ui-blackgreen/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="screen" />
-
 <link href="/styles/mbContainer/css/mbContainer.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="/styles/resultGrid.css" rel="stylesheet" type="text/css" media="screen" />
+<!--<link href="/styles/resultGrid.css" rel="stylesheet" type="text/css" media="screen" /> -->
 {% endblock %}
 
 {% block scripts %}
@@ -16,13 +15,14 @@
 <script type="text/javascript" src="/jscripts/mbContainer.js"></script>
 <script type="text/javascript" src="/jscripts/jquery.panelgallery.js"></script>
 <script type="text/javascript" src="/jscripts/jquery.form.js"></script>
-
 <script type="text/javascript">
 $(function(){
-	$(".containerPlus").buildContainers({
+	/*
+	  $(".containerPlus").buildContainers({
 		containment:"document",
 		elementsPath:"elements/"
 	});
+	*/
 
 	$('#LogoContainer').panelGallery({
 		sections:5,
@@ -32,7 +32,7 @@ $(function(){
 		repeat:false,
 		direction:"lr"
 	});
-
+	
 	$('.date').datepicker()
 
 	$('.my-collapsible').click(function(){

@@ -22,6 +22,48 @@ $(document).ready(function() {
 <div id="menu" style="padding-left: 15px; margin-top: -5px;position: relative;" >
 	<ul class="sf-menu">
 	    <li><a href="/">Home</a></li>
-	    
+	    <li><a href="#">Post</a>
+	    	<ul>
+	    		<li><a href="{% url PostHandler %}?op=add">Add New Post</a></li>
+	    	</ul>
+	    </li>
+	    <li><a href='{% url TranslateHandler %}'>Dictionary</a>
+	    	<ul>	 
+	    		<li><a href="{% url LanguagesHandler %}">Languages</a> </li>	
+	    		<li><a href="{% url TranslateHandler %}">Translate</a> </li>		   		
+	    	</ul>
+	    	
+	    </li>
+		<li><a href="{% url AboutHandler %}">About</a></li>
+		<li><a href="{% url LinksHandler %}">Links</a></li>
+		<li><a href="#">User</a>
+			<ul>
+				<li><a href="{% url UserProfileHandler %}">Profile</a></li>
+				<li><a href="{% url AddUserHandler %}">Add User</a></li>
+			</ul>
+		</li>
+		<li><a href="{% url TransactionHandler %}">Accounting</a>
+			<ul>
+				<li><a href="{% url UserTransactionListHandler %}">Transaction List</a></li>
+				<li><a href="{% url TransactionHandler %}">New transaction</a></li>
+				<li><a href="{% url FinancialCardHandler %}">Financial Card</a></li>
+				<li><a href="#">Administration</a>
+					<ul>
+						<li><a href="{% url TransactionTypeGroupHandler %}">Financial Card</a></li>
+						<li><a href="{% url TransactionTypeHandler %}">Transaction Groups</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><a href="#">Admin</a>
+			<ul>
+				<li><a href="/admin/SearchUsers">Search Users</a></li>
+				<li><a href="/admin/AddAdmin">Add Administrator</a></li>
+				<li><a href="/admin/ListAdmins">List Administrators</a></li>
+				<li><a href="/admin/ListUsers">List Users</a></li>
+			</ul>
+		</li>
+		<li><a href='{% url WishListHandler %}'>Wish List</a></li>
+		<li><a href="{% url ContactHandler %}">Contact</a></li>
 	</ul>
 </div>

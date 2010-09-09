@@ -20,5 +20,11 @@ $(document).ready(function() {
 {% endcomment %}
 <div id="menu" style="padding-left: 15px; margin-top: -5px;position: relative;" >
 	<ul class="sf-menu">
+	    <li><a href='{% url HomeHandler %}'>Home</a></li>
+	    <li><a href='{% url TranslateHandler %}'>Dictionary</a></li>
+		<li><a href="{% url AboutHandler %}">About</a></li>
+		<li><a href="{% url LinksHandler %}">Links</a></li>
+		<li><a href='{% url WishListHandler %}'>Wish List</a></li>
+		<li><a href="{% url ContactHandler %}">Contact</a></li>
 	</ul>
 </div>

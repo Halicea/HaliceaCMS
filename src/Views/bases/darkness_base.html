@@ -1,5 +1,4 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html>
 <head>
 <style type="text/css">
@@ -9,9 +8,8 @@
 	height: 100px; 
 	background-color: black;
 }
-</style>
 
-	
+</style>
 <title>
 	{% block title %} {% endblock %} 
 </title>
@@ -27,6 +25,7 @@
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
 </script>
 <script type="text/javascript">
 try {
@@ -57,12 +56,6 @@ pageTracker._trackPageview();
 						{% else %}
 						<a href="{% url LoginHandler %}" style="text-align: right; color: black;">Login</label> </a>
 						{% endif %}
-						<!--	
-						<fieldset>
-							<input type="text" name="q" value="search keywords" id="q" class="text" />
-							<input type="submit" value="Search" class="button" />
-						</fieldset>
-						-->
 					</form>
 				{% endblock %}
 			</div>
@@ -108,7 +101,7 @@ pageTracker._trackPageview();
 		</div>
 	</div>
 	<div style="clear: both;"></div>
-	<div id="bottom_container" style="text-align: center;">
+	<div id="bottom_container" style="text-align: center; width:100%">
 		{% block footer %}
 	<p><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" 
 alt="Powered by Google App Engine" /> vlachyouth.appspot.com (c)2009. Created By Kosta Mihajlov Halicea. </p>

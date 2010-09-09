@@ -10,11 +10,10 @@ import Models.ProfileModels as pm
 handlerType = "profiles"
 class UserProfileHandler(MyRequestHandler):
     def get(self):
-        self.SetTemplate(handlerType, "soc_UserProfile.html")
         if self.User:
             userKey = self.g('key')
             if self.g('op')=='src' and self.g('searchWord'):
-                self.SetTemplate(handlerType, 'soc_SearchUsers.html')
+                self.SetTemplate(handlerType, 'SearchUsers.html')
                 pass
             elif userKey:
                 user = Person.get(userKey)
@@ -48,14 +47,13 @@ class UserProfileHandler(MyRequestHandler):
 
 class ProfileImagesHandler(MyRequestHandler):
     def post(self):
-        self.SetTemplate(handlerType, 'soc_ProfileImages.html')
         op = self.g('op')
         dict = {}
         if op == "add":
             img = self.g("fileImg")
             img = pm.ProfileImage.CreateNew(owner=self.User.owner_profiles.get(), image=img, isDefault=False, _isAutoInsert=True)
             self.status="Image Added!"
-            self.redirect('/Profile')
+            self.redirect(UserProfileHandler.get_url())
         if op == "show":
             if self.g('key'):
                 if self.g('profileKey'):

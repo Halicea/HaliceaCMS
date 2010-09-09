@@ -31,6 +31,7 @@ __basesDict__={
         "base":             "../../bases/base.html",
         "darkness_base":    "../../bases/darkness_base.html",
         "cms_base":         "../../bases/cms_base.html",
+        "mail_base":		"../../bases/mail_base.html",
         }
 
 __menusDict__={
@@ -38,7 +39,7 @@ __menusDict__={
        "mnBlogSidebar":         "../../menus/blog_sidebar.inc.html",
        "mnTopMenuAccounting":   "../../menus/top_menu_acc.inc.html",
        "mnTopMenu":             "../../menus/top_menu.inc.html",
-       "mnTransactionList":     "acc_transaction_list.inc.html",
+       "mnTransactionList":     "transaction_list.inc.html",
        }
 
 __blocksDict__={
@@ -52,7 +53,8 @@ __blocksDict__={
         "blAdminMenu":      "../../blocks/menu_links/admin.inc.html",
         "blLogedUserMenu":  "../../blocks/menu_links/loged_user.inc.html",
         "blDefaultMenu":    "../../blocks/menu_links/default.inc.html",
-        'blMembersGadget':     "../../blocks/google-ajax-api/members_gadget.html"
+        'blMembersGadget':     "../../blocks/google-ajax-api/members_gadget.html",
+        'blTransactionVerification': "../../mail_templates/transaction_verification.html",
         }
 
 __pluginsDict__={

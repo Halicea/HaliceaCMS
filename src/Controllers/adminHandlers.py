@@ -4,16 +4,13 @@ Created on Jul 21, 2009
 '''
 
 from google.appengine.ext import db
-import Models.BlogModels as bm
 from Models.BaseModels import Person, Admin
-
-
 from MyRequestHandler import MyRequestHandler
 from lib import messages
+from Controllers.baseHandlers import LoginHandler
 handlerType="admin"
 class UserSearchHandler(MyRequestHandler):
     def get(self):
-        self.SetTemplate(handlerType, 'admin_SearchUsers.html')
         if(self.User and self.User.IsAdmin):
             g = self.request.get
             if(g('search')):
@@ -24,11 +21,10 @@ class UserSearchHandler(MyRequestHandler):
             else:
                 self.respond()
         else:
-            self.redirect('/Login')
+            self.redirect(LoginHandler.get_url())
 
 class SearchResultsHandler(MyRequestHandler):
     def get(self):
-        self.SetTemplate(handlerType,'SearchResults.html')
         if(self.User and self.User.IsAdmin):
             g = self.request.get
             
@@ -40,11 +36,10 @@ class SearchResultsHandler(MyRequestHandler):
             else:
                 self.respond()
         else:
-            self.redirect('/Login')
+            self.redirect(LoginHandler.get_url())
 
 class AddAdminHandler(MyRequestHandler):
     def get(self):
-        self.SetTemplate(handlerType,'admin_AddAdmin.html')
         g = self.request.get        
         if(self.User and self.User.IsAdmin):
             if(g('UserName')):
@@ -54,7 +49,7 @@ class AddAdminHandler(MyRequestHandler):
             else:    
                 self.respond()  
         else:
-            self.redirect('/Login')
+            self.redirect(LoginHandler.get_url())
 
 class ListAdminsHandler(MyRequestHandler):
     def get(self):
@@ -64,8 +59,9 @@ class ListAdminsHandler(MyRequestHandler):
             result=querry.fetch(1000)
             self.respond({'result':result})
         else:
-            self.redirect('/Login')
             self.status(messages.not_allowed_to_access)
+            self.redirect(LoginHandler.get_url())
+            
 
 class ListUsersHandler( MyRequestHandler ):
     def get( self ):
@@ -76,5 +72,4 @@ class ListUsersHandler( MyRequestHandler ):
             self.respond( locals() )
         else:
             self.status = 'You Must be Loged in as administrator in order to list the users'
-            self.redirect( '/Login' )
-
+            self.redirect( LoginHandler.get_url() )

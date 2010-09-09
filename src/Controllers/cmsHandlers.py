@@ -1,13 +1,16 @@
 '''
 Created on Jan 31, 2010
+
 @author: KMihajlov
 '''
 import yaml
 import Models.CMSModels as cms
+from Controllers.baseHandlers import LoginHandler
 from MyRequestHandler import MyRequestHandler
 
 from google.appengine.api import memcache
 from lib import messages
+from Controllers.baseHandlers import LoginHandler
 handlerType = "cms"
 
 class CMSAdminHandler(MyRequestHandler):
@@ -16,15 +19,13 @@ class CMSAdminHandler(MyRequestHandler):
         self.respond()
     def post(self):
         pass
-
+    
 class CMSLinksHandler(MyRequestHandler):
     def get(self):
-        self.SetTemplate(handlerType, 'CMSLinks.html')
         cmsLinks = cms.CMSLink.GetLinkTree()
         contents = cms.CMSContent.all().fetch(limit=1000, offset=0)
         self.respond({'cmsLinks':cmsLinks, 'contents':contents})
     def post(self):
-        self.SetTemplate(handlerType, 'CMSLinks.html')
         if self.User and self.User.IsAdmin:
             if self.g('op'):
                 if self.g('op')=='add':
@@ -49,8 +50,7 @@ class CMSLinksHandler(MyRequestHandler):
                         lnk.delete()
                     else:
                         self.status="Link is invalid";
-                        self.redirect('/Login')
-            
+                        self.redirect(LoginHandler.get_url())
             if not self.isAjax:
                 cmsLinks = cms.CMSLink.GetLinkTree()
                 yaml.load()                
@@ -68,9 +68,9 @@ class CMSContentHandler(MyRequestHandler):
             self.respond({'contents':contents})
         else:
             self.status = messages.not_allowed_to_access
-            self.redirect('/Login')
+            self.redirect(LoginHandler.get_url())
+            
     def post(self):
-        self.SetTemplate(handlerType, 'CMSContent.html')
         if self.User and self.User.IsAdmin:
             if self.g('op'):
                 if self.g('op')=='add':
@@ -89,12 +89,11 @@ class CMSContentHandler(MyRequestHandler):
 
 class CMSPageHandler(MyRequestHandler):
     def get(self, pagepath):
-        self.SetTemplate('cms', 'CMSPage.html')
         lnk = cms.CMSLink.GetLinkByPath(pagepath)
         if lnk:
             self.respond({'link':lnk})
         else:
             self.status ="Not Valid Page"
-            self.redirect('/Login')        
+            self.redirect(LoginHandler.get_url())
     def post(self, pagepath):
         pass
