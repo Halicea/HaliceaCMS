@@ -1,4 +1,0 @@
-cron:
-- description: simple dummy data population
-  url: /tasks/dummydatapopulation
-  schedule: 1st monday of sep 17:00
