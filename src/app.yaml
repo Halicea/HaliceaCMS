@@ -22,5 +22,4 @@ handlers:
   
 - url: /.*
   script: handlerMap.py
-  
-  
+

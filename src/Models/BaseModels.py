@@ -9,11 +9,12 @@ import datetime as dt
 ###########
 
 class Person(db.Model):
-    '''A Person with Name, Surname Phone Email e.t.c'''
+    '''A Person with UserName, Name, Surname Phone Email e.t.c'''
+    UserName = db.StringProperty(required=True)
+    Password = db.StringProperty(required=True)
     Name = db.StringProperty(required=True)
     Surname = db.StringProperty(required=True)
     Email = db.EmailProperty(required=True)
-    Password = db.StringProperty(required=True)
     Public = db.BooleanProperty(default=True)
     Notify = db.BooleanProperty(default=False)
     DateAdded = db.DateTimeProperty()
@@ -30,20 +31,19 @@ class Person(db.Model):
 
     def __validate__(self):
         __errors__ = []
-        if not self.Name or len(self.Name) < 3:
-            __errors__.append('Name must not be less than 3 characters')
-        if not self.Surname or len(self.Surname) < 3:
-            __errors__.append('Surname must not be less than 3 characters')
+        if not self.UserName or len(self.UserName)<3:
+            __errors__.append('UserName must not be less than 3 characters')
         if not self.Email: #or self.Email.validate('^[0-9,a-z,A-Z,.]+@[0-9,a-z,A-Z].[com, net, org]'):
             __errors__.append('Email Must Not be Empty')
         if len(self.Password) < 6  or str(self.Password).find(self.Name) >= 0:
             __errors__.append('Not a good Password(Must be at least 6 characters long, and not containing your name')
 
         return not __errors__ and (True, None) or (False, ' and\r\n'.join(__errors__))
-    
+
     @classmethod
-    def CreateNew(csl, name, surname, email, password, public, notify, _autoSave=False):
-        result = cls(Email=email,
+    def CreateNew(csl, uname, name, surname, email, password, public, notify, _autoSave=False):
+        result = cls(UserName = uname,
+                    Email=email,
                     Name=name,
                     Surname=surname,
                     Password=password,
@@ -55,8 +55,8 @@ class Person(db.Model):
         return result
     @classmethod
     def GetUser(cls, uname, password):
-        return cls.gql('WHERE Email= :email AND Password= :passwd', email=uname, passwd=password).get()
-		
+        return cls.gql('WHERE (Email= :uname OR UserName= :uname) AND Password= :passwd', uname=uname, passwd=password).get()
+
 class Admin(Person):
     '''Admin can view all users'''
     #user = db.UserProperty()
