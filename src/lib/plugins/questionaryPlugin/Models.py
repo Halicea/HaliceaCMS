@@ -33,7 +33,7 @@ class Questionary(db.Model):
 		result = cls.gql("WHERE IsShown =:s AND DateOff >: doff AND DateShown <:dshown", 
 						 s=True, doff=dt.datetime.now(), dshown=dt.datetime.now()).fetch(limit=limit, offset=offset)
 		return result
-		
+
 class QuestionType(db.Model):
 	Code =db.StringProperty(required=True)
 	Description =db.StringProperty(required=True)
@@ -54,9 +54,9 @@ class Question(db.Model):
 		if _isAutoInsert: result.put()
 		return result
 	@classmethod
-	def GetAllByQuestioniary(cls, questionary, limit=100, offset=0):
+	def GetAllByQuestionary(cls, questionary, limit=100, offset=0):
 		return questionary.questionary_questions.fetch(limit=limit, offset=offset)
-	
+
 class Option(db.Model):
 	Question = db.ReferenceProperty(Question, require=True, collection_name='question_options')
 	Text = db.StringProperty(required=True)

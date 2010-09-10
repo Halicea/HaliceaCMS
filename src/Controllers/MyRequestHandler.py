@@ -125,7 +125,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 		if uri=='/Login' and not self.request.url.endswith('/Logout'):
 			innerdict['redirect_url']=self.request.url
 		if innerdict and len( innerdict ) > 0:
-			params= '&'.join( [cgi.escape( k ) + '=' + cgi.escape( innerdict[k] ) for k in innerdict] )
+			params= '&'.join( [k + '=' + str(innerdict[k]) for k in innerdict] )
 			if uri.find('?')==-1:
 				webapp.RequestHandler.redirect( self, uri + '?' + params, permanent )
 			elif uri.endswith('&'):

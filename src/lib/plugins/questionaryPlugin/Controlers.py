@@ -7,14 +7,14 @@ from Controllers.MyRequestHandler import MyRequestHandler as mrh
 from lib.plugins.questionaryPlugin import Models as qpm
 class QuestionaryHandler(mrh):
     def get(self):
-       pass 
+        pass 
         
 class AnswerAllQuestionaryHandler(mrh):
     def post(self):
         if self.g('key'):
             questionary = qpm.Questionary.get(self.g('key'))
             if questionary:
-                questions= qpm.Question.GetAllByQuestioniary(questionary)
+                questions= qpm.Question.GetAllByQuestionary(questionary)
                 options=[]
                 for q in questions:
                     options.extend( qpm.Option.GetAllByQuestion(q) )
@@ -29,12 +29,14 @@ class ResultsQuestionaryHandler(mrh):
         if self.g('key'):
             questionary = qpm.Questionary.get(self.g('key'))
             if questionary:
-                questions= qpm.Question.GetAllByQuestioniary(questionary)
+                questions= qpm.Question.GetAllByQuestionary(questionary)
                 options=[]
                 for q in questions:
                     options.extend( qpm.Option.GetAllByQuestion(q) )
                 for op in options:
                     option_answer = self.g(str(op.key))
                     if option_answer:
+                        #TODO: Implement this
+                        pass
                         
                         

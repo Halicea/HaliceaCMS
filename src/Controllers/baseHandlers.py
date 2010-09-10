@@ -47,12 +47,14 @@ class AddUserHandler( MyRequestHandler ):
 	def post( self ):
 		self.SetTemplate(handlerType, 'Thanks.html')
 		try:
-			user = base.Person( Email=self.request.get( 'Email' ),
-						   Name=self.request.get( 'Name' ),
-						   Surname=self.request.get( 'Surname' ),
-						   Password=self.request.get( 'Password' ),
-						   Public=self.request.get( 'Public' ) == 'on' and True or False,
-						   Notify=self.request.get( 'Notify' ) == 'on' and  True or False
+			user = base.Person( 
+						   UserName = self.g('UserName'),
+						   Email=self.g( 'Email' ),
+						   Name=self.g( 'Name' ),
+						   Surname=self.g( 'Surname' ),
+						   Password=self.g( 'Password' ),
+						   Public=self.g( 'Public' ) == 'on' and True or False,
+						   Notify=self.g( 'Notify' ) == 'on' and  True or False
 						   )
 
 			if ( self.request.get( 'Notify' ) == None and self.request.get( 'Notify' ) == 'on' ):
