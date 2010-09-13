@@ -12,7 +12,8 @@ import lib.configuration as configuration
 from os import path
 from google.appengine.ext.webapp import template
 import cgi
-
+#from lib.decorators import property as prop
+from django.contrib.auth import get_user
 # from Models import ProfileModels as pm
 
 __mode__ = 'Debug'
@@ -52,14 +53,19 @@ class MyRequestHandler( webapp.RequestHandler ):
 	def __getSession__(self):
 		return get_current_session()
 	session = property(__getSession__)
-
-	t ={}
-	def get_user(self):
-		if self.session.is_active():
-			return self.session.get('user', default=None)
+	
+	@classmethod
+	def GetUser(cls):
+		s = get_current_session()
+		if s.is_active():
+			return s.get('user', default=None)
 		else:
 			return None
+	t ={}
+	def get_user(self):
+		return MyRequestHandler.GetUser()
 	User=property(get_user, None)
+	
 	def login_user(self, uname, passwd):
 		self.logout_user()
 		user = Person.GetUser(uname, passwd)
@@ -85,7 +91,6 @@ class MyRequestHandler( webapp.RequestHandler ):
 		if not self.isAjax: self.isAjax = self.g('isAjax')=='true'
 		if self.request.get( 'status' ):
 			self.status = self.request.get( 'status' )
-	# end template property
 # Methods
 	def g(self, item):
 		return self.request.get(item)
@@ -105,10 +110,8 @@ class MyRequestHandler( webapp.RequestHandler ):
 		#update the variables about the references
 		result.update(paths.GetBasesDict())
 		result.update(paths.GetMenusDict())
-		result.update(paths.GetBlocksDict())
-		##end
+		result.update(paths.GetBlocksDict())		##end
 		return result
-
 	def respond( self, dict={} ):
 		#self.response.out.write(self.Template+'<br/>'+ dict)
 		self.response.out.write( template.render( self.Template, self.render_dict( dict ), 
@@ -116,8 +119,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 		def redirect_login( self ):
 			self.redirect( '/Login' )
 	def respond_static(self, text):
-		self.response.out.write(text)
-		
+		self.response.out.write(text)	
 	def redirect( self, uri, postargs={}, permanent=False ):
 		innerdict = dict( postargs )
 		if not innerdict.has_key( 'status' ) and self.status:

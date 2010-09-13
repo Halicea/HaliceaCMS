@@ -55,7 +55,12 @@ class Person(db.Model):
         return result
     @classmethod
     def GetUser(cls, uname, password):
-        return cls.gql('WHERE (Email= :uname OR UserName= :uname) AND Password= :passwd', uname=uname, passwd=password).get()
+        u = None
+        if '@' in uname:
+            u = cls.gql('WHERE Password= :passwd AND Email= :uname', uname=uname, passwd=password).get()
+        else:
+            u = cls.gql('WHERE Password= :passwd AND UserName= :uname', uname=uname, passwd=password).get()
+        return u
 
 class Admin(Person):
     '''Admin can view all users'''

@@ -12,8 +12,7 @@ handlerType="admin"
 class UserSearchHandler(MyRequestHandler):
     def get(self):
         if(self.User and self.User.IsAdmin):
-            g = self.request.get
-            if(g('search')):
+            if(self.g('search')):
                 query = Person.all()
                 #query.filter('Name=', g('search'))
                 self.respond({'result':query.fetch(limit=100)})  
@@ -21,6 +20,7 @@ class UserSearchHandler(MyRequestHandler):
             else:
                 self.respond()
         else:
+            self.status = messages.not_allowed_to_access
             self.redirect(LoginHandler.get_url())
 
 class SearchResultsHandler(MyRequestHandler):
@@ -36,6 +36,7 @@ class SearchResultsHandler(MyRequestHandler):
             else:
                 self.respond()
         else:
+            self.status = messages.not_allowed_to_access
             self.redirect(LoginHandler.get_url())
 
 class AddAdminHandler(MyRequestHandler):
