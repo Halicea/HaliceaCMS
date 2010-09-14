@@ -77,14 +77,11 @@ class AddUserHandler( MyRequestHandler ):
 			self.redirect(AddUserHandler.get_url())
 			
 class WishListHandler(MyRequestHandler):
-	
-	
 	def get(self):
 		if self.g('op')=='del' and self.g('key'):
 			self.deleteWish(self.g('key'))
 		self.respond({'wishlist' : base.WishList.GetAll()})
 		#self.respond()
-		
 	@AdminOnly('/WishList')
 	def deleteWish(self, wishKey):
 		k = base.WishList.get(wishKey)

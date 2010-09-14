@@ -27,6 +27,7 @@ class Account(db.Model):
 		if _isAutoSave:
 			result.put()
 		return result
+
 class TransactionModes(object):
 	debit = 'debit'
 	credit = 'credit'
@@ -147,8 +148,6 @@ class FinancialCard (db.Model):
 	def RecalculateFinancialCard(cls, owner, referentEntity, _isAutoUpdate=False):
 		fcard = cls.gql("WHERE Owner =:o AND ReferentEntity =:re", o=owner, re=referentEntity)
 		return fcard.Recalculate(_isAutoUpdate=_isAutoUpdate)
-		
-	#----------------------
 
 class TransactionVerificationRequest(db.Model):
 	''' Object that is stored when a mail is sent to a person that need to verify some transaction'''

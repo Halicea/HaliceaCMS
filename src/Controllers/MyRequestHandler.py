@@ -24,7 +24,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 	quote = None
 	status = None
 	isAjax=False
-	__templateIsSet__=False
+	__templateIsSet__= False
 	__template__ =""
 	def getTemplate(self):
 		if not self.__templateIsSet__:
@@ -53,7 +53,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 	def __getSession__(self):
 		return get_current_session()
 	session = property(__getSession__)
-	
+
 	@classmethod
 	def GetUser(cls):
 		s = get_current_session()
@@ -65,7 +65,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 	def get_user(self):
 		return MyRequestHandler.GetUser()
 	User=property(get_user, None)
-	
+
 	def login_user(self, uname, passwd):
 		self.logout_user()
 		user = Person.GetUser(uname, passwd)
@@ -116,8 +116,8 @@ class MyRequestHandler( webapp.RequestHandler ):
 		#self.response.out.write(self.Template+'<br/>'+ dict)
 		self.response.out.write( template.render( self.Template, self.render_dict( dict ), 
 												  debug = configuration.template_debug ) )
-		def redirect_login( self ):
-			self.redirect( '/Login' )
+	def redirect_login( self ):
+		self.redirect( '/Login' )
 	def respond_static(self, text):
 		self.response.out.write(text)	
 	def redirect( self, uri, postargs={}, permanent=False ):
@@ -137,6 +137,8 @@ class MyRequestHandler( webapp.RequestHandler ):
 		else:
 			webapp.RequestHandler.redirect( self, uri, permanent )
 
+#    def setProperties():
+#        for k, v in self.request
 class RoleAuthorization(object):
 	@classmethod
 	def IsAdmin(cls, user):

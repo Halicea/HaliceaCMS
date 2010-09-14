@@ -35,7 +35,7 @@ def deprecated(func):
     return new_func
 
 class LogInRequired():
-    def __init__(self, redirect_url='/', message= messages.must_be_loged):
+    def __init__(self, redirect_url='/Login', message= messages.must_be_loged):
         self.redirect_url = redirect_url
         self.message = message
         self.handler = None
@@ -50,7 +50,7 @@ class LogInRequired():
         return new_f
 
 class AdminOnly():
-    def __init__(self, redirect_url='/', message= messages.must_be_admin):
+    def __init__(self, redirect_url='/Login', message= messages.must_be_admin):
         self.redirect_url = redirect_url
         self.message = message
         self.handler = None

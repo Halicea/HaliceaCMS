@@ -12,6 +12,7 @@ from google.appengine.ext.webapp import template
 import lib.messages as message
 import lib.paths as paths
 from Forms.accountingForms import AccountForm
+from lib.decorators import AdminOnly, LogInRequired, ErrorSafe
 #import pdb
 handlerType = 'accounting'
 
@@ -30,42 +31,36 @@ class AccountingHandler(mrh):
 		self.redirect(LoginHandler.get_url())
 
 class AccountHandler(AccountingHandler):
-	def get(self):
+	@LogInRequired()
+	def get(self, *args):
 		local = {}
-		if self.User:
-			if self.g("key"):
-				acc = am.Account.get(self.g('key'))
-				if acc:
-					local["currentAccount"] = AccountForm(data = acc)
-			self.respond(local)
-		else:
-			self.status = message.must_be_loged
-			self.redirect(LoginHandler.get_url())
-	def post(self):
-		#self.TemplateType="accounting"
-		#import rpdb2; rpdb2.start_embedded_debugger('test')
-		if self.User:
-			if self.g('op') == 'new':
-				form=AccountForm(self.request.POST)
-				if form.is_valid():
-					result=form.save(commit=False)
-					result.put()
-				#accountNumber = self.g("AccountNumber")
-				#bankName = self.g("BankName")
-				#balance = float(self.g("Balance"))
-				#owner = self.User
-				#if accountNumber and bankName and balance:
-					self.status = message.item_is_saved
-				#	am.Account.CreateNew(accountNumber, bankName, owner, balance, _isAutoSave=True)
-				else:
-					self.status = message.invalid_data_passed+ '</br>' + str(form.AccountNumber) + str(form.BankName)+str(form.Balance) 
-			self.respond()
-		else:
-			self.status = message.must_be_loged
-			self.redirect(LoginHandler.get_url())
+		if self.g("key"):
+			acc = am.Account.get(self.g('key'))
+			if acc:
+				local["currentAccount"] = AccountForm(data = acc)
+		self.respond(local)
+	
+	@LogInRequired()
+	def post(self, *args):
+		if self.g('op') == 'new':
+			form=AccountForm(self.request.POST)
+			if form.is_valid():
+				result=form.save(commit=False)
+				result.put()
+			#accountNumber = self.g("AccountNumber")
+			#bankName = self.g("BankName")
+			#balance = float(self.g("Balance"))
+			#owner = self.User
+			#if accountNumber and bankName and balance:
+				self.status = message.item_is_saved
+			#	am.Account.CreateNew(accountNumber, bankName, owner, balance, _isAutoSave=True)
+			else:
+				self.status = message.invalid_data_passed+ '</br>' + str(form.AccountNumber) + str(form.BankName)+str(form.Balance) 
+		self.respond()
 
 class TransactionTypeGroupHandler(AccountingHandler):
-	def get(self):
+	@AdminOnly()
+	def get(self, *args):
 		if self.request.get('action'):
 			if self.g('action') == 'delete' and self.g('key'):
 				del_item = am.TransactionTypeGroup.get(self.request.get('key'))
@@ -92,7 +87,8 @@ class TransactionTypeGroupHandler(AccountingHandler):
 			self.respond(locals())
 
 class TransactionTypeHandler(AccountingHandler):
-	def get(self):
+	@AdminOnly()
+	def get(self, *args):
 		if self.request.get('action'):
 			if self.request.get('action') == 'delete' and self.request.get('key'):
 				del_item = am.TransactionType.get(self.request.get('key'))
@@ -125,31 +121,52 @@ class TransactionTypeHandler(AccountingHandler):
 			transaction_types = am.TransactionType.all()
 			self.respond(locals())
 
-class TransactionHandler(AccountingHandler):
-	def get(self):
+class TransactionHandler(AccountingHandler):	
+	@LogInRequired()
+	def get(self, *args):
 		allUsers = Person.all()
 		ownerAccount = None
 		isCash = False
-		if self.User:
-			if self.g('OwnerAccount'):
-				if self.g('op') == 'new':
-					ownerAccount = am.Account.get(self.g('OwnerAccount'))
-					if str(ownerAccount.Owner.key()) != str(self.User.key()):
-						ownerAccount = None
-				elif self.g('op') == 'search':
-					allUsers = Person.all()
-					self.respond(locals())
-				elif self.g('op') == 'cash':
-					IsCash=True
+		if self.g('OwnerAccount'):
+			if self.g('op') == 'new':
+				ownerAccount = am.Account.get(self.g('OwnerAccount'))
+				if str(ownerAccount.Owner.key()) != str(self.User.key()):
+					ownerAccount = None
+			elif self.g('op') == 'search':
+				allUsers = Person.all()
 				self.respond(locals())
-			else:
-				self.status = message.invalid_data_passed
-				self.redirect(AccountHandler.get_url())
+			elif self.g('op') == 'cash':
+				IsCash=True
+			self.respond(locals())
 		else:
-			self.status = message.must_be_loged
-			self.redirect(LoginHandler.get_url())
-
-	def validate_retrieve(self):
+			self.status = message.invalid_data_passed
+			self.redirect(AccountHandler.get_url())
+	@LogInRequired(message = 'You Must be loged in in order to manage your Account')
+	def post(self, *args):
+		result, notify, message = self.validate_retrieve()
+		if result:
+			#if notify:
+			#	self.notify_second_party(result)
+			self.status = "The transaction is added!"
+			self.redirect(UserTransactionListHandler.get_url())
+		else:
+			self.status = 'You did not passed valid parameters, Message:' + message
+			self.respond(locals())
+	@LogInRequired()
+	def notify_second_party(self, transaction):
+		acc = am.TransactionVerificationRequest.CreateNew(transaction, _autoInsert=True)
+		dict = {}
+		dict['verification'] = acc
+		body = template.render(paths.GetBlocksDict()["blTransactionVerification"], dict)
+	
+		message = mail.EmailMessage()
+		message.subject = 'Transaction Acceptance Form'
+		message.sender = 'kosta.mihajlov@gmail.com'
+		message.to = acc.Reciever.Email
+		message.html = body
+		message.Send()
+	@LogInRequired()
+	def validate_retrieve(self, *args):
 		OwnerAccountKey = self.g('OwnerAccountKey')
 		ReferentAccountKey = self.g('ReferentAccountKey')
 		TransactionMode = self.g('TransactionMode')
@@ -181,68 +198,31 @@ class TransactionHandler(AccountingHandler):
 			mess += ',exception:' + str(ex)
 			return (result, False, mess)
 
-	#Process the request here
-	def post(self):
-		if self.User:
-			result, notify, message = self.validate_retrieve()
-			if result:
-				#if notify:
-				#	self.notify_second_party(result)
-				self.status = "The transaction is added!"
-				self.redirect(UserTransactionListHandler.get_url())
-			else:
-				self.status = 'You did not passed valid parameters, Message:' + message
-				self.respond(locals())
-		else:
-			self.status = 'You Must be loged in in order to manage your Account'
-			self.redirect(LoginHandler.get_url())
-
-	def notify_second_party(self, transaction):
-		acc = am.TransactionVerificationRequest.CreateNew(transaction, _autoInsert=True)
-		dict = {}
-		dict['verification'] = acc
-		body = template.render(paths.GetBlocksDict()["blTransactionVerification"], dict)
-	
-		message = mail.EmailMessage()
-		message.subject = 'Transaction Acceptance Form'
-		message.sender = 'kosta.mihajlov@gmail.com'
-		message.to = acc.Reciever.Email
-		message.html = body
-		message.Send()
-
 class UserTransactionListHandler(AccountingHandler):
-	def get(self):
+	@LogInRequired(message = 'You Must be LogedIn in order to see your Balance')
+	def get(self, *args):
 		result = None
-		if self.User:
-			if self.User.owner_accounts.get():
-				transaction_results = self.User.owner_accounts.get().owner_account_transactions.fetch(limit=10)
-			allUsers = Person.all()
-			self.respond(locals())
-		else:
-			self.status = 'You Must be LogedIn in order to see your Balance'
-			self.redirect(LoginHandler.get_url())
-
+		if self.User.owner_accounts.get():
+			transaction_results = self.User.owner_accounts.get().owner_account_transactions.fetch(limit=10)
+		allUsers = Person.all()
+		self.respond(locals())
+	
 class FinancialCardHandler(AccountingHandler):
-	def get(self):
-		if self.User:
-			self.respond(self.base_params())
-		else:
-			self.status = 'You must be loged in in order to use the Accounting Service'
-			self.redirect(LoginHandler.get_url())
-	def post(self):
-		if self.User:
-			d = self.base_params()
-			if self.request.get('UserKey'):
-				if self.request.get('From') and self.request.get('From'):
-					zd = Person.get(self.request.get('UserKey'))
-					#search_result = am.Dolg.gql( 'WHERE (zel = :zd OR dal = :zd) AND owner:ow', zd=zd, ow=self.User ).fetch( limit=100 )
-					transaction_results = am.Transaction.all().filter('OwnerAccouny=', self.User).filter('ReferentAccouny=', zd).fetch(limit=100)
-					#search_result = db.GqlQuery("SELECT * FROM Dolg WHERE owner= :1 AND (zel= :2 OR dal= :2)", self.User, zd)
-					d['transaction_results'] = transaction_results
-					self.respond(d)
-		else:
-			self.status = 'You must be loged in in order to use the Accounting Service'
-			self.redirect(LoginHandler.get_url())
+	@LogInRequired()
+	def get(self, *args):
+		self.respond(self.base_params())
+
+	@LogInRequired()
+	def post(self, *args):
+		d = self.base_params()
+		if self.request.get('UserKey'):
+			if self.request.get('From') and self.request.get('From'):
+				zd = Person.get(self.request.get('UserKey'))
+				#search_result = am.Dolg.gql( 'WHERE (zel = :zd OR dal = :zd) AND owner:ow', zd=zd, ow=self.User ).fetch( limit=100 )
+				transaction_results = am.Transaction.all().filter('OwnerAccouny=', self.User).filter('ReferentAccouny=', zd).fetch(limit=100)
+				#search_result = db.GqlQuery("SELECT * FROM Dolg WHERE owner= :1 AND (zel= :2 OR dal= :2)", self.User, zd)
+				d['transaction_results'] = transaction_results
+				self.respond(d)
 
 	def base_params(self):
 		financialCard = None
@@ -262,6 +242,7 @@ class FinancialCardHandler(AccountingHandler):
 		return {"financialCard":financialCard, "refUser":refUser, "allUsers":allUsers}
 
 class TransactionVerificationHandler(AccountingHandler):
+	@LogInRequired('You must be loged in in order to verify some transaction!')
 	def get(self, verification_key):
 		verification = am.TransactionVerificationRequest.get(verification_key)
 		#change the user login now
