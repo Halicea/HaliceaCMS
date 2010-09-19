@@ -1,7 +1,7 @@
 from google.appengine.ext import db
 from BaseModels import Person
 import datetime as dt
-
+from lib.decorators import property
 class CMSContent(db.Model):
     Title = db.StringProperty()
     Content = db.TextProperty()
@@ -18,7 +18,12 @@ class CMSContent(db.Model):
         if _isAutoInsert:
             result.put()
         return result
-    
+
+class ContentType:
+    CMSPage = 0
+    StaticPage = 1
+    NoContent = 2 
+
 class CMSLink(db.Model):
     AddressName = db.StringProperty(required=True)
     Name = db.StringProperty(required=True)
@@ -27,7 +32,8 @@ class CMSLink(db.Model):
     Order = db.IntegerProperty(required=True, default=100)
     Content = db.ReferenceProperty(reference_class=CMSContent, collection_name='content_cms_links')
     Creator = db.ReferenceProperty(Person, collection_name='creator_cms_links')
-    IsCmsLink = db.BooleanProperty(default=True)
+    ContentTypeNumber = db.IntegerProperty(default = 0)
+
     def GetChildren(self):
         return CMSLink.gql("WHERE Depth =:depth AND ParentLink =:pl", depth=self.Depth+1, pl=self).fetch(limit=1000)
     
@@ -75,4 +81,8 @@ class CMSLink(db.Model):
             result[t] = t.GetTreeBelow()
         return result
     ## End Static Methods
-    
+
+class Menu(db.Model):
+    Name = db.StringProperty(required = True)
+    Location = db.TextProperty(required = True)
+    CssClass = db.StringProperty()

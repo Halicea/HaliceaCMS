@@ -11,12 +11,29 @@ import lib.paths as paths
 import lib.configuration as configuration
 from os import path
 from google.appengine.ext.webapp import template
-import cgi
+
 #from lib.decorators import property as prop
 from django.contrib.auth import get_user
 # from Models import ProfileModels as pm
-
 __mode__ = 'Debug'
+
+class Operations(object):
+	'''Defines the basic operations that can be user for a handler action
+	This actions can be extended with the [add] method'''
+	add = 'add'
+	delete = 'del'
+	insert = 'ins'
+	update = 'upd'
+	search = 'src'
+	list = 'lst'
+	@staticmethod
+	def contains(operation):
+		return [x for x in dir(Operations) if x == operation]
+	@classmethod
+	def add(cls, name, value):
+		cls.__setattr__(name, value)
+		
+
 class MyRequestHandler( webapp.RequestHandler ):
 	# Properties
 	TemplateDir = 'Views'
@@ -61,7 +78,7 @@ class MyRequestHandler( webapp.RequestHandler ):
 			return s.get('user', default=None)
 		else:
 			return None
-	t ={}
+
 	def get_user(self):
 		return MyRequestHandler.GetUser()
 	User=property(get_user, None)
@@ -89,8 +106,9 @@ class MyRequestHandler( webapp.RequestHandler ):
 		webapp.RequestHandler.__init__( self )
 		#self.request = super(MyRequestHandler, self).request
 		if not self.isAjax: self.isAjax = self.g('isAjax')=='true'
-		if self.request.get( 'status' ):
-			self.status = self.request.get( 'status' )
+		# set the status variable
+		if self.session.has_key( 'status' ):
+			self.status = self.session.pop('status')
 # Methods
 	def g(self, item):
 		return self.request.get(item)
@@ -107,6 +125,8 @@ class MyRequestHandler( webapp.RequestHandler ):
 			result['mode'] = __mode__
 		if not result.has_key('current_user'):
 			result['current_user'] = self.User
+		if not result.has_key('op'):
+			result['op'] = Operations
 		#update the variables about the references
 		result.update(paths.GetBasesDict())
 		result.update(paths.GetMenusDict())
@@ -122,8 +142,11 @@ class MyRequestHandler( webapp.RequestHandler ):
 		self.response.out.write(text)	
 	def redirect( self, uri, postargs={}, permanent=False ):
 		innerdict = dict( postargs )
-		if not innerdict.has_key( 'status' ) and self.status:
-			innerdict['status'] = self.status
+		if innerdict.has_key( 'status' ):
+			self.status = innerdict['status']
+			del innerdict['status']
+		if self.status:
+			self.session['status']=self.status
 		if uri=='/Login' and not self.request.url.endswith('/Logout'):
 			innerdict['redirect_url']=self.request.url
 		if innerdict and len( innerdict ) > 0:
@@ -137,16 +160,14 @@ class MyRequestHandler( webapp.RequestHandler ):
 		else:
 			webapp.RequestHandler.redirect( self, uri, permanent )
 
-#    def setProperties():
-#        for k, v in self.request
 class RoleAuthorization(object):
-	@classmethod
-	def IsAdmin(cls, user):
+	@staticmethod
+	def IsAdmin(user):
 		if user and user.IsAdmin:
 			return True
 		return False
 	
-	@classmethod
+	@staticmethod
 	def CanOpenPage(user, pageUrl):
 		return True
 #end Methods

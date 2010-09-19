@@ -61,11 +61,11 @@ pageTracker._trackPageview();
 	{% include blLogin %}
 {% endblock %}
 {% block status %}
-{% if status %}
+	{% if status %}
 <div class="ui-state-error" style="text-align: center">
 	{{status}}
 </div>
-{% endif %}
+    {% endif %}
 {% endblock %}
 {% block sidebar %}
 	{% include mnBlogSidebar %}

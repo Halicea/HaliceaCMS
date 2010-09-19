@@ -77,8 +77,6 @@ class ErrorSafe():
     def __call__(self, f):
         def new_f(request, *args):
             try:
-                a = list(args)
-                a.insert(0, request)
                 f(request, args)
             except self.Exception, ex:
                 if request.status == None:
@@ -88,6 +86,5 @@ class ErrorSafe():
                     
                 if self.showStackTrace:
                     request.status+= "  Details:<br/>"+ex.__str__()
-
                 request.redirect(self.redirectUrl)
         return new_f
