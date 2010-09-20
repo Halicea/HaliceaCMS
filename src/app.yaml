@@ -16,6 +16,9 @@ handlers:
 - url: /jscripts
   static_dir: staticData/jscripts
   
+- url: /family
+  static_dir: Views/pages/gramps 
+  
 - url: /remote_api
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
